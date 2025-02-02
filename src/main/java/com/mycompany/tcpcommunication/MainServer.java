@@ -10,4 +10,7 @@ package com.mycompany.tcpcommunication;
  */
 public class MainServer {
     
+    public MainServer(String[] args){
+        Server s = new Server(2000);
+    }
 }
