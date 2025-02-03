@@ -16,6 +16,7 @@ public class Server {
     private Socket clientSocket;
     private int porta;
     
+    // costruttore di Server 
     public Server(int porta){
         this.porta=porta;
         try {
@@ -49,7 +50,7 @@ public class Server {
                 serverSocket.close();
             }
         } catch(IOException e) {
-            
+            System.err.println(e);
         }
     }
     
