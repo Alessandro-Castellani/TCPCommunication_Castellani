@@ -4,13 +4,12 @@
  */
 package com.mycompany.tcpcommunication;
 
-/**
- *
- * @author user
- */
+import java.net.Socket;
+
 public class MainServer {
     
-    public MainServer(String[] args){
+    public static void main(String[] args) {
         Server s = new Server(2000);
+        Socket ss = s.attendi();        /* RESTITUISCE UN SOCKET */
     }
 }

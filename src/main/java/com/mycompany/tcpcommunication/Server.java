@@ -12,8 +12,8 @@ import java.net.Socket;
  * @author user
  */
 public class Server {
-    private ServerSocket serverSocket;
-    private Socket clientSocket;
+    private ServerSocket serverSocket;  // IL CONNECTION SOCKET
+    private Socket clientSocket;        // IL DATA SOCKET
     private int porta;
     
     // costruttore di Server 
@@ -26,12 +26,15 @@ public class Server {
             System.err.println("Server non in ascolto " + e);
         }
     }
+
+    // FINORA ABBIAMO FATTO SOCKET, BIND E LISTEN, ORA FACCIAMO ACCEPT
     
     public Socket attendi(){
         try{
             clientSocket = serverSocket.accept();
+            System.out.println("Server connesso con il client");
         } catch (IOException e){
-            System.err.println(e);
+            System.err.println("Problemi di connessione con il client" + e);
         }
         return clientSocket;
     }
