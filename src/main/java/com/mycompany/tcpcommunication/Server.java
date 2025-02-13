@@ -1,11 +1,15 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.tcpcommunication;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
 
 /**
  *
@@ -13,14 +17,22 @@ import java.net.Socket;
  */
 public class Server {
     private ServerSocket serverSocket;  // IL CONNECTION SOCKET
-    private Socket clientSocket;        // IL DATA SOCKET
-    private int porta;
+    private Socket Socket;        // IL DATA SOCKET
+    private int port = 1906;
+    InputStream is;
+    Scanner streamIn = null;
+    OutputStream os;
+    PrintWriter streamOut = null;
+    String messaggioIn, messaggioOut;
+    
+    
+    
     
     // costruttore di Server 
-    public Server(int porta){
-        this.porta=porta;
+    public Server(int port){
+        this.port=port;
         try {
-            serverSocket = new ServerSocket(porta);
+            serverSocket = new ServerSocket(port);
             System.out.println("Il server è in ascolto");
         } catch (IOException e) {
             System.err.println("Server non in ascolto " + e);
@@ -31,26 +43,36 @@ public class Server {
     
     public Socket attendi(){
         try{
-            clientSocket = serverSocket.accept();
+            Socket = serverSocket.accept();
             System.out.println("Server connesso con il client");
         } catch (IOException e){
             System.err.println("Problemi di connessione con il client" + e);
         }
-        return clientSocket;
+        return Socket;
     }
     
-    public void scrivi(){
-        
+    public void scrivi() throws IOException{
+        os = Socket.getOutputStream();
+        streamOut = new PrintWriter(os);
+        System.out.println("Spedisco il messaggio al client");
+        messaggioOut = "Ciao client! Ti aspettavo";
+        streamOut.println(messaggioOut);
+        streamOut.flush();
     }
     
-    public void leggi(){
-        
+    public void leggi() throws IOException{
+        is = Socket.getInputStream();
+        streamIn = new Scanner(is);
+        System.out.println("Leggo il messaggio del client!");
+        messaggioIn = streamIn.next();
+        System.out.println("Messaggio del client: " + messaggioIn);
+        System.out.println("----------------------------------");
     }
     
     public void chiudi(){
         try {
-            if (clientSocket != null) {
-                clientSocket.close();
+            if (Socket != null) {
+                Socket.close();
             }
         } catch(IOException e) {
             System.err.println(e);

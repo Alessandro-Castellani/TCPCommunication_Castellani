@@ -4,7 +4,12 @@
  */
 package com.mycompany.tcpcommunication;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Scanner;
 
 /**
  *
@@ -12,19 +17,31 @@ import java.net.Socket;
  */
 
 public class Client {
-    private String nome;
+
+    /**
+     *
+     */
+    public static final String BLUE = "\u001B[34m";
+    public static final String RESET = "\u001B[0m";
     private String colore;
-    private Socket socket;
+    private Socket socket = null;
+    int port = 1906;
+    InetAddress serverAddress;
+    InputStream is;
+    Scanner streamIn = null;
+    OutputStream os;
+    PrintWriter streamOut = null;
+    String messaggioIn, messaggioOut;
+    
 
     // Costruttore con nome e colore
     public Client(String nomeDefault, String coloreDefault){
-        nome=nomeDefault;
         colore=coloreDefault;
+        
     }
     
     // Costruttore con solo nome
     public Client(String nomeDefault){
-        nome=nomeDefault;
     }
     
     // Metodo connetti 
@@ -38,12 +55,20 @@ public class Client {
         }
     }
     
-    public void scrivi(){
-        
+    public void scrivi() throws IOException{
+        os = socket.getOutputStream();
+        streamOut = new PrintWriter(os);
+        streamOut.flush();
+        messaggioOut = "Eccomi!";
+        streamOut.println(messaggioOut);
+        streamOut.flush();
     }
     
-    public void leggi(){
-        
+    public void leggi() throws IOException{
+        streamIn = new Scanner(is);
+        is = socket.getInputStream();
+        messaggioIn = streamIn.nextLine();
+        System.out.println("Messaggio del server: " + messaggioIn);
     }
     
     public void chiudi(){
