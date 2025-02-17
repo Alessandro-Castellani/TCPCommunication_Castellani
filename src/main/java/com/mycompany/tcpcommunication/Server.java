@@ -45,6 +45,10 @@ public class Server {
         try{
             Socket = serverSocket.accept();
             System.out.println("Server connesso con il client");
+            os = Socket.getOutputStream();
+            streamOut = new PrintWriter(os);
+            is = Socket.getInputStream();
+            streamIn = new Scanner(is);
         } catch (IOException e){
             System.err.println("Problemi di connessione con il client" + e);
         }
@@ -52,8 +56,6 @@ public class Server {
     }
     
     public void scrivi() throws IOException{
-        os = Socket.getOutputStream();
-        streamOut = new PrintWriter(os);
         System.out.println("Spedisco il messaggio al client");
         messaggioOut = "Ciao client! Ti aspettavo";
         streamOut.println(messaggioOut);
@@ -61,10 +63,8 @@ public class Server {
     }
     
     public void leggi() throws IOException{
-        is = Socket.getInputStream();
-        streamIn = new Scanner(is);
         System.out.println("Leggo il messaggio del client!");
-        messaggioIn = streamIn.next();
+        messaggioIn = streamIn.nextLine();
         System.out.println("Messaggio del client: " + messaggioIn);
         System.out.println("----------------------------------");
     }

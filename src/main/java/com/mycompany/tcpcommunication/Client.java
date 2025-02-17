@@ -35,13 +35,14 @@ public class Client {
     
 
     // Costruttore con nome e colore
-    public Client(String nomeDefault, String coloreDefault){
-        colore=coloreDefault;
+    public Client(String nomeDefault, String colore){
+        this.colore = BLUE;
         
     }
     
     // Costruttore con solo nome
     public Client(String nomeDefault){
+
     }
     
     // Metodo connetti 
@@ -50,23 +51,22 @@ public class Client {
             // istanza esplicita del socket che potrebbe sollevare eccezioni di input/output
             socket = new Socket(nomeServer, portaServer);
             System.out.println(this.colore + "1) Connessione avvenuta");
+            os = socket.getOutputStream();
+            streamOut = new PrintWriter(os);
+            is = socket.getInputStream();
+            streamIn = new Scanner(is);
         } catch (IOException e){
             System.err.println("Errore nella fase di connessione: "+ e);
         }
     }
     
     public void scrivi() throws IOException{
-        os = socket.getOutputStream();
-        streamOut = new PrintWriter(os);
-        streamOut.flush();
         messaggioOut = "Eccomi!";
         streamOut.println(messaggioOut);
         streamOut.flush();
     }
     
     public void leggi() throws IOException{
-        streamIn = new Scanner(is);
-        is = socket.getInputStream();
         messaggioIn = streamIn.nextLine();
         System.out.println("Messaggio del server: " + messaggioIn);
     }
@@ -75,8 +75,10 @@ public class Client {
         try {
             // chiusura del socket
             if (socket != null) {
-                socket.close();
-                System.out.println("Connessione chiusa.");
+               os.close();
+               is.close();
+               socket.close();
+               System.out.println("Connessione chiusa.");
             }
         } catch (IOException e) {
             System.err.println("Errore nella chiusura della connessione: " + e);
