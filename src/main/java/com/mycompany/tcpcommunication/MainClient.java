@@ -4,6 +4,8 @@
  */
 package com.mycompany.tcpcommunication;
 
+import java.io.IOException;
+
 /**
  *
  * @author user
@@ -11,10 +13,11 @@ package com.mycompany.tcpcommunication;
 public class MainClient {
     
     
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException{
         Client c1 = new Client("Alessandro");
         c1.connetti("localhost", 2000);
         c1.scrivi();
+        c1.leggi();
         c1.chiudi();
     } 
 }
