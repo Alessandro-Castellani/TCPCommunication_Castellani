@@ -23,6 +23,7 @@ public class Client {
      */
     public static final String BLUE = "\u001B[34m";
     public static final String RESET = "\u001B[0m";
+    private String nome = "";
     private String colore;
     private Socket socket = null;
     int port = 1906;
@@ -36,13 +37,14 @@ public class Client {
 
     // Costruttore con nome e colore
     public Client(String nomeDefault, String colore){
+        this.nome=nomeDefault;
         this.colore = BLUE;
         
     }
     
     // Costruttore con solo nome
     public Client(String nomeDefault){
-
+        this.nome=nomeDefault;
     }
     
     // Metodo connetti 
