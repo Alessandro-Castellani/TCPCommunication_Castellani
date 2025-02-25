@@ -19,6 +19,7 @@ public class MainServer {
         scanner.close();
 
         for (int i = 0; i != numeroClient; i++){
+            System.out.println("liar");
             Socket ss = server.attendi();        /* RESTITUISCE UN SOCKET */
             try {
                 server.leggi();   // Legge il messaggio dal client
